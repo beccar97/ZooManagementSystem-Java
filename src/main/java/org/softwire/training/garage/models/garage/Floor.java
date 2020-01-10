@@ -1,5 +1,7 @@
 package org.softwire.training.garage.models.garage;
 
+import org.softwire.training.garage.models.vehicles.Vehicle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,6 +57,12 @@ public class Floor {
     public long getNumberAvailableSpacesOfType(SpaceType type) {
         return spaces.stream().filter(space -> space.isAvailable()
                 && space.getType() == type).count();
+    }
+
+    public List<Space> findSpacesFor(Vehicle vehicle) {
+        return vehicle.getCompatibleSpaceTypes().stream()
+                .flatMap(spaceType -> getAvailableSpacesOfType(spaceType).stream())
+                .collect(Collectors.toList());
     }
 
 }
